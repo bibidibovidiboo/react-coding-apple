@@ -40,6 +40,8 @@ function App(){
         <hr/>
       </div> */}
 
+
+      {/* 반복문으로  */}
       {
         글제목.map(function(글, i){
           return (
