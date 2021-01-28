@@ -41,7 +41,7 @@ function App(){
       </div> */}
 
 
-      {/* 반복문으로  */}
+      {/* 반복문으로 np */}
       {
         글제목.map(function(글, i){
           return (
