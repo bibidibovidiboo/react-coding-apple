@@ -1,27 +1,30 @@
 /* eslint-disable */
-import { useState } from "react";
-import { Navbar, Nav, NavDropdown, Button, Jumbotron } from "react-bootstrap";
-import "./App.css";
-import Data from "./data.js";
-import Detail from "./Detail.js";
 
-import { Link, Route, Switch } from "react-router-dom";
+import React, { useState } from 'react'
+import { Navbar, Nav, NavDropdown, Button, Jumbotron } from 'react-bootstrap'
+import './App.css'
+import Data from './data.js'
+import Detail from './Detail.js'
+import axios from 'axios'
+
+import { Link, Route, Switch } from 'react-router-dom'
 
 function App() {
-  let [shoes, shoes변경] = useState(Data);
+  let [shoes, shoes변경] = useState(Data)
+  let [재고, 재고변경] = useState([10, 11, 12])
 
   return (
     <div className="App">
-      <Navbar bg="light" expand="lg" className="">
-        <Navbar.Brand href="#home">Shoe Shop</Navbar.Brand>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link>
-              <Link to="/">Home</Link>
+            <Nav.Link as={Link} to="/">
+              Home
             </Nav.Link>
-            <Nav.Link>
-              <Link to="/detail">Detail</Link>
+            <Nav.Link as={Link} to="/detail">
+              Detail
             </Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -50,28 +53,39 @@ function App() {
               <Button variant="primary">Learn more</Button>
             </p>
           </Jumbotron>
-
           <div className="container">
             <div className="row">
               {shoes.map((a, i) => {
-                return <Card shoes={shoes[i]} i={i} key={i} />;
+                return <Card shoes={shoes[i]} i={i} key={i} />
               })}
             </div>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                axios
+                  .get('https://codingapple1.github.io/shop/data2.json')
+                  .then(result => {
+                    shoes변경([...shoes, ...result.data])
+                  })
+                  .catch(() => {})
+              }}
+            >
+              더보기
+            </button>
           </div>
         </Route>
 
         <Route path="/detail/:id">
-          <Detail shoes={shoes} />
+          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
         </Route>
 
         <Route path="/:id">
-          <div>아무거나 적었을 때 이거 보여주셈</div>
+          <div>아무거나적었을때 이거 보여주셈</div>
         </Route>
       </Switch>
-
       {/* <Route path="/어쩌구" component={Modal}></Route> */}
     </div>
-  );
+  )
 }
 
 function Card(props) {
@@ -79,7 +93,7 @@ function Card(props) {
     <div className="col-md-4">
       <img
         src={
-          "https://codingapple1.github.io/shop/shoes" + (props.i + 1) + ".jpg"
+          'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'
         }
         width="100%"
       />
@@ -88,7 +102,6 @@ function Card(props) {
         {props.shoes.content} & {props.shoes.price}
       </p>
     </div>
-  );
+  )
 }
-
-export default App;
+export default App
